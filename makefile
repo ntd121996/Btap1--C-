@@ -1,29 +1,53 @@
+CUR_DIR = QuanLyCanBo
 CC = gcc
 CXX = g++
 LIBS =
-CFLAGS = -I.
-CXXFLAGS = -I.
-ODIR = obj
-DEPS = quanly.h#phanso.h
-OBJ = quanly_main.cpp quanly.cpp
-# OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+CXXFLAGS = -g -Wall
+#Include Direction
+INCLUDE_DIR = ../$(CUR_DIR)/include
 
-# hellomake : main.c
-# 	gcc -g main.c -o hellomake
+#Source File Direction
+SOURCEC_DIR = ../$(CUR_DIR)/source
 
- %.o: %.cpp $(DEPS)
-	$(CXX) -c -g -Wall $@ $< $(CXXFLAGS)
-all: $(OBJ)
-	$(CXX) -o $@ $^ $(CXXFLAGS)
+INCLUDE_BUILD = -I$(INCLUDE_DIR) \
+-I.
+
+#Include file dependency
+DEPS = quanly.h
+#Include file full path to build
+DEPS_BUILD = $(patsubst %,$(INCLUDE_DIR)/%,$(DEPS))
+
+#Source File .cpp
+SOURCE = quanly_main.cpp quanly.cpp
+
+#Change File.cpp to File.o
+OBJECT = $(patsubst %.cpp,%.o,$(SOURCE))
+
+#Source fullpath to build
+SOURCE_BUILD = $(patsubst %,$(SOURCEC_DIR)/%,$(OBJECT))
+# patsubst( pattern ,replacement, text)
+
+EXE = main
+REMOVE = rm -rf
+
+
+#Suffix Rule
+%.o : %.cpp $(DEPS_BUILD)
+	$(CXX) -c $(CXXFLAGS) -o $@ $< $(INCLUDE_BUILD)
+
+$(EXE): $(SOURCE_BUILD)
+	@echo Processing ...
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(INCLUDE_BUILD)$(LIBS)
+	@echo Build Success !!!
+
+test:
+	@echo $(SOURCE_BUILD)
+	@echo $(DEPS_BUILD)
+
 run:
-	./all
-
-# %.o: %.c $(DEPS)
-# 	$(CC) -c -g -Wall -o $@ $< $(CFLAGS)
-# hellomake: $(OBJ)
-# 	$(CC) -o $@ $^ -g $(CFLAGS) $(LIBS)
-
+	./$(EXE)
 
 .PHONY: clean
 clean :
-	rm *.o all
+	$(REMOVE) $(SOURCEC_DIR)/*.o $(EXE)
+	@echo Remove Success
