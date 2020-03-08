@@ -1,37 +1,42 @@
 #include "quanly.h"
 
-map< string, string >  Person::Nhap ()
-// void Person::Nhap()
+// map< string, string >  CanBo::Nhap ()
+
+KySu::KySu( string hoten ) : CanBo ( hoten, "Ky Su" ){}
+CongNhan::CongNhan( string hoten ) : CanBo ( hoten, "Cong Nhan" ){}
+NhanVien::NhanVien( string hoten ) : CanBo ( hoten, "Nhan Vien" ){}
+CanBo::CanBo ( string hoten, string chucvu )
 {
-    cout << " Nhap ho ten: ";
-    cin >> this->hoten;
-    cout << " Nhap ngay sinh: ";
-    cin >> this->ngaysinh;
-    this->person.emplace( this->hoten, this->ngaysinh );
-    return this->person;
+    this->hoten = hoten;
+    this->chucvu = chucvu;
 }
-void Person::Xuat()
+QuanLyCanBo::QuanLyCanBo()
 {
-    cout << " Thong Tin " << "\nTen: " << this->hoten \
-     << "\nNgay sinh: " << this->ngaysinh << endl;
 }
-void QuanLyCanBo::Nhap( Person *person )
+void CanBo::Xuat()
 {
-    map <string, string > temp;
-    temp =  person->Nhap();
-    this->CongNhan.insert( temp.begin(), temp.end());
+    cout <<" Ten: "<< this->hoten << "\t---Chuc Vu: " << this->chucvu << endl;
+}
+void QuanLyCanBo::Nhap( string hoten, CanBo *canbo )
+{
+    this->DanhSach.insert( pair<string,CanBo>( hoten,*canbo ));
 } 
-void QuanLyCanBo::Xuat( Person *person )
+void QuanLyCanBo::Xuat()
 {
-    // person->Xuat();
-    for ( auto x : this->CongNhan )
-    cout << "Ten: " << x.first << "\nNgaysinh: " << x.second;
+     map <string, CanBo> :: iterator it;
+    for ( it = this->DanhSach.begin() ; it!= this->DanhSach.end(); it++)
+    it->second.Xuat();
 }
 void QuanLyCanBo::Timkiem( string hoten )
 {
-    
-    map <string, string> :: iterator it = this->CongNhan.find( hoten );
-    if( it == this->CongNhan.end() ) cout << "Invalid";
-    cout << "\nTim Kiem\t\n" << it->first << it->second;
+    map <string, CanBo> :: iterator it = this->DanhSach.find( hoten );
+    if( it == this->DanhSach.end())
+    {
+        cout << "Invalid";
+    }
+    else
+    {
+        it->second.Xuat();
+    }
 }
 

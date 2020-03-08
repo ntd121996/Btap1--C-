@@ -3,69 +3,52 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
-class Person
+class CanBo
 {
-
-string hoten;
-string ngaysinh;
-map < string, string > person;
+protected :
+    string hoten;
+    string chucvu;
 public:
-
-map< string, string > Nhap();
-// void Nhap();
-void Xuat();
+CanBo ( string hoten, string chucvu );
+virtual void Xuat();
 };
 
-class CongNhan : public Person
+class CongNhan : public CanBo
 {
 private:
-    /* data */
-public:
+public: 
+CongNhan( string hoten );
 };
 
-class KySu :Person
+class KySu :public CanBo
 {
 private:
-    /* data */
+
 public:
+KySu( string hoten );
 };
 
-class NhanVien : public Person
+class NhanVien : public CanBo
 {
 private:
-    /* data */
+
 public:
+NhanVien( string hoten );
+
 };
 
 class QuanLyCanBo
 {
 private:
-    /* data */
-    map < string, string > CongNhan;
-
+    map <string,CanBo> DanhSach;
 public:
-    void Nhap( Person *person);
+    QuanLyCanBo();
+    void Nhap( string hoten ,CanBo *canbo );
     void Timkiem( string hoten );
-    void Xuat ( Person *Person );
+    void Xuat();
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

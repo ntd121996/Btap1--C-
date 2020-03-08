@@ -12,19 +12,12 @@ SOURCEC_DIR = ../$(CUR_DIR)/source
 INCLUDE_BUILD = -I$(INCLUDE_DIR) \
 -I.
 
-#Include file dependency
-DEPS = quanly.h
-#Include file full path to build
-DEPS_BUILD = $(patsubst %,$(INCLUDE_DIR)/%,$(DEPS))
+DEBUG = ../$(CUR_DIR)/Debug# Create folder to save objects
 
 #Source File .cpp
 SOURCE = quanly_main.cpp quanly.cpp
-
-#Change File.cpp to File.o
-OBJECT = $(patsubst %.cpp,%.o,$(SOURCE))
-
 #Source fullpath to build
-SOURCE_BUILD = $(patsubst %,$(SOURCEC_DIR)/%,$(OBJECT))
+SOURCE_BUILD = $(patsubst %.cpp,$(DEBUG)/%.o,$(SOURCE))#Convert .cpp -> .o with new folder
 # patsubst( pattern ,replacement, text)
 
 EXE = main
@@ -32,10 +25,10 @@ REMOVE = rm -rf
 
 
 #Suffix Rule
-%.o : %.cpp $(DEPS_BUILD)
+$(DEBUG)/%.o : $(SOURCEC_DIR)/%.cpp  #compile with new folder
 	$(CXX) -c $(CXXFLAGS) -o $@ $< $(INCLUDE_BUILD)
 
-$(EXE): $(SOURCE_BUILD)
+$(EXE): $(SOURCE_BUILD)#linker with new folder
 	@echo Processing ...
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(INCLUDE_BUILD)$(LIBS)
 	@echo Build Success !!!
@@ -49,5 +42,5 @@ run:
 
 .PHONY: clean
 clean :
-	$(REMOVE) $(SOURCEC_DIR)/*.o $(EXE)
+	$(REMOVE) $(DEBUG)/*.o $(EXE)
 	@echo Remove Success
