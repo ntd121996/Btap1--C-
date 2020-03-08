@@ -10,6 +10,10 @@ CanBo::CanBo ( string hoten, string chucvu )
     this->hoten = hoten;
     this->chucvu = chucvu;
 }
+CanBo::~CanBo()
+{
+
+}
 QuanLyCanBo::QuanLyCanBo()
 {
 }

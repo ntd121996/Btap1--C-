@@ -13,6 +13,7 @@ protected :
 public:
 CanBo ( string hoten, string chucvu );
 virtual void Xuat();
+virtual ~CanBo();
 };
 
 class CongNhan : public CanBo
